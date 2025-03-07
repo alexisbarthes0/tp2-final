@@ -7,19 +7,19 @@ require_once("database-connection.php")
 <?php
 require_once("head.php");
 ?>
-<!-- <pre>
-    &lt;
-    A REMPLACER PAR VOTRE CODE POUR CHARGER ET AFFICHER DANS UN TABLEAU LA LISTE DES POKEMONS CLASSES PAR LEUR TYPE, PUIS PAR LEUR NOM.
-    CHAQUE POKEMON DOIT ETRE CLIQUABLE POUR NAVIGUER SUR UNE PAGE OU L'ON AFFICHE SON IMAGE ET L'ENSEMBLE DE SES CARACTERISTIQUES
-    &gt;
-    </pre> -->
-
 <?php
-    $sql = "SELECT *
-            FROM pokemon
-            JOIN type_pokemon ON pokemon.idType1 = type_pokemon.idType
-            -- LEFT JOIN type_pokemon ON pokemon.idType2 = type_pokemon.idType 
-            ORDER BY pokemon.idType1 ASC";
+    $sql = "SELECT 
+    p.nomPokemon,
+    t1.nomType AS Type1,
+    t2.nomType AS Type2,
+    p.urlPhoto
+FROM 
+    pokemon p
+JOIN 
+    type_pokemon t1 ON p.idType1 = t1.idType
+JOIN 
+    type_pokemon t2 ON p.idType2 = t2.idType
+ORDER BY t1.idType ASC;";
 $result = mysqli_query($databaseConnection, $sql);
 
 echo "<table style='width: 100%; border-spacing: 10px;'>"; // Une table toute simple
@@ -35,7 +35,8 @@ if(mysqli_num_rows($result) > 0){
         echo "<td style='width: 25%; text-align: center;'>"; //Chaque pkmn prends 1/4 de la ligne et le texte est aligné
         echo "<img src='" . $row["urlPhoto"] . "' alt='" . $row["nomPokemon"] . "' />"; //Affichage de la photo
         echo "<p>" . $row["nomPokemon"] . "</p>"; //Affichage du nom
-        echo "<p>" . $row["nomType"] . "</p>"; //Affichage du premier type
+        echo "<p>" . $row["Type1"] . "</p>"; //Affichage du premier type
+        echo "<p>" . $row["Type2"] . "</p>"; // Affichage du second type
         // echo "<p>" . $row["nomType2"] . "</p>"; //Affichage du second type de ses mort jpp
         echo "</td>"; // On balance UN SEUL pokémon avec noms images et id
 

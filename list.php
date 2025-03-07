@@ -36,7 +36,7 @@ if(mysqli_num_rows($result) > 0){
         echo "<td style='width: 25%; text-align: center;'>";
         echo "<img src='" . $row["urlPhoto"] . "' alt='" . $row["nomPokemon"] . "' />";
         echo "<p>" . $row["nomPokemon"] . "</p>";
-        echo "<p>" . $row["idPokemon"] . "</p>";
+        echo "<p> ID : " . $row["idPokemon"] . "</p>";
         echo "</td>"; // On balance UN SEUL pokémon avec noms images et id
 
         $count++; // On rajoute un au compteur et comme ça quand on arrive à 4 beh ça revient à la ligne enft
