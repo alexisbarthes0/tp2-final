@@ -8,6 +8,11 @@ require_once("database-connection.php")
 require_once("head.php");
 ?>
 <?php
+$colors = [
+    "Feu" => "#ff6b6b", "Eau" => "#3498db", "Plante" => "#2ecc71", "Electrique" => "#f1c40f",
+    "Glace" => "#74b9ff", "Combat" => "#d63031", "Psy" => "#e84393", "Roche" => "#7f8c8d",
+    "Spectre" => "#6c5ce7", "Dragon" => "#0984e3", "Normal" => "#dfe6e9", "Poison" => "#a29bfe", 
+    "Vol" => "#81ecec", "Sol" => "#e67e22", "Insecte" => "#27ae60"];
     $sql = "SELECT 
     p.nomPokemon,
     t1.nomType AS Type1,
@@ -17,9 +22,9 @@ FROM
     pokemon p
 JOIN 
     type_pokemon t1 ON p.idType1 = t1.idType
-JOIN 
+LEFT JOIN 
     type_pokemon t2 ON p.idType2 = t2.idType
-ORDER BY t1.idType ASC;";
+ORDER BY t1.idType, t2.idType;";
 $result = mysqli_query($databaseConnection, $sql);
 
 echo "<table style='width: 100%; border-spacing: 10px;'>"; // Une table toute simple
@@ -36,7 +41,11 @@ if(mysqli_num_rows($result) > 0){
         echo "<img src='" . $row["urlPhoto"] . "' alt='" . $row["nomPokemon"] . "' />"; //Affichage de la photo
         echo "<p>" . $row["nomPokemon"] . "</p>"; //Affichage du nom
         echo "<p>" . $row["Type1"] . "</p>"; //Affichage du premier type
-        echo "<p>" . $row["Type2"] . "</p>"; // Affichage du second type
+        if (!empty($row['Type2'])) {
+            echo "<p>" . $row['Type2'] . "</p>";
+        } else {
+            echo "<p> &nbsp; </p>"; 
+        }
         // echo "<p>" . $row["nomType2"] . "</p>"; //Affichage du second type de ses mort jpp
         echo "</td>"; // On balance UN SEUL pokémon avec noms images et id
 
