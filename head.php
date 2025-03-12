@@ -20,6 +20,10 @@
         </a>
         <form id="search-bar" action="search_pokemon.php" method="GET">
             <span class="input-group">
+                <!-- J'ai tenté de flex en mettant un petit message si connecté, mais j'ai pas réussi. J'ai du mal avec les variables globales :/-->
+                <!-- // if ($connecte == 1){
+                //     echo "Vous êtes connecté en tant que " . $row['prenom'] . " " . $row['nom'];
+                // } -->
                 <input id="q" name="q" type="search" placeholder="Rechercher un pokémon"><button type="submit">🔎</button>
             </span>
         </form>

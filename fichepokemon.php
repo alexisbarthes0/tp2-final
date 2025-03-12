@@ -25,6 +25,8 @@ require_once("head.php");
 
 
 
+    <input type="submit" name="capture" value="Noter comme capturé">
+
 
  
  <?php
