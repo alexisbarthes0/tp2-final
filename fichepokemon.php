@@ -1,6 +1,8 @@
 <?php
 require_once("database-connection.php");
 require_once("head.php");
+session_start(); // Démarre la session
+$dresseur = isset($_SESSION['login']) ? $_SESSION['login'] : null;
 ?>
 <?php
  if (isset($_GET['id'])) {
@@ -23,7 +25,14 @@ require_once("head.php");
     <p>Spécial : <?php echo $pokemon['PtsSpecial']; ?></p>
 
 
-    <input type="submit" name="capture" value="Noter comme capturé">
+    <?php if ($dresseur) : ?>
+    <form method="post">
+        <input type="hidden" name="idPokemon" value="<?php echo $pokemon['idPokemon']; ?>">
+        <input type="submit" name="capture" value="Noter comme capturé">
+    </form>
+<?php else : ?>
+    <p style="color: red;">Connectez-vous pour capturer ce Pokémon.</p>
+<?php endif; ?>
      <!-- récupération de des éléments de l'ancêtre -->
     <?php
 
@@ -63,6 +72,26 @@ $evolution = mysqli_fetch_assoc($resultEvolution);
     <a href="fichepokemon.php?id=<?php echo $evolution['idPokemon']; ?>">
         <img src="<?php echo htmlspecialchars($evolution['urlPhoto']); ?>" alt="<?php echo htmlspecialchars($evolution['nomPokemon']); ?>" />
     </a>
+    
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["capture"])) {
+    $idPokemon = intval($_POST["idPokemon"]);
+
+    if (mysqli_num_rows($resultCheck) > 0) {
+        echo "<p style='color: red;'>Vous avez déjà capturé ce Pokémon !</p>";
+    } else {
+        // au secours
+        $sqlInsert = "INSERT INTO capture (dresseur, idCapture) VALUES (?, ?)";
+        $stmtInsert = mysqli_prepare($databaseConnection, $sqlInsert);
+        mysqli_stmt_bind_param($stmtInsert, "si", $dresseur, $idPokemon);
+        if (mysqli_stmt_execute($stmtInsert)) {
+            echo "<p style='color: green;'>Pokémon capturé avec succès !</p>";
+        } else {
+            echo "<p style='color: red;'>Erreur lors de la capture.</p>";
+        }
+    }
+}
+?>
 <?php endif; ?>
 
  <?php
