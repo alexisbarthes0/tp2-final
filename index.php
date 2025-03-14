@@ -10,11 +10,11 @@ require_once("head.php");
     <p>Ce site web recense les pokémons existants dans la région de Kanto.</p>
     <p>Utilisez le menu latéral pour naviguer entre les différentes pages du site, ou utilisez la barre de recherche pour rechercher les pokémons par leur nom.</p>
 </article>
-// Vérifie  connection
+<!-- // Vérifie  connection
 if (!$databaseConnection) {
   die("Connection failed: " . mysqli_connect_error());
 }
-echo "<p>" . "Connected successfully" . "</p>" ;
+echo "<p>" . "Connected successfully" . "</p>" ; -->
 <?php
 require_once("footer.php");
 ?>
