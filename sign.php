@@ -59,7 +59,7 @@ if (isset($_POST['connexion'])) {
 
 ?>
 
-<h3>Inscription</h3>
+<h2>Inscription</h2>
 
 <form method="POST">
 <label for="prenom">Prénom:</label><br>
@@ -77,7 +77,7 @@ if (isset($_POST['connexion'])) {
 <input type="submit" name="inscription" value="S'inscrire">
 </form>
 
-<h2>Formulaire de Connexion</h2>
+<h2>Connexion</h2>
 <form method="POST">
 <label for="login">Login:</label><br>
 <input type="text" id="login" name="login" required><br><br>

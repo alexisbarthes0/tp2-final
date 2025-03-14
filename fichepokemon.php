@@ -23,12 +23,48 @@ require_once("head.php");
     <p>Spécial : <?php echo $pokemon['PtsSpecial']; ?></p>
 
 
-
-
     <input type="submit" name="capture" value="Noter comme capturé">
+     <!-- récupération de des éléments de l'ancêtre -->
+    <?php
 
+$sqlAncetre = "
+    SELECT p.idPokemon, p.nomPokemon, p.urlPhoto 
+    FROM evolutions e
+    JOIN Pokemon p ON e.idAncetre = p.idPokemon
+    WHERE e.idEvolution = $id
+";
+$resultAncetre = mysqli_query($databaseConnection, $sqlAncetre);
+$ancetre = mysqli_fetch_assoc($resultAncetre);
 
- 
+// Récupération des élements de l'évolution
+$sqlEvolution = "
+    SELECT p.idPokemon, p.nomPokemon, p.urlPhoto 
+    FROM evolutions e
+    JOIN Pokemon p ON e.idEvolution = p.idPokemon
+    WHERE e.idAncetre = $id
+";
+$resultEvolution = mysqli_query($databaseConnection, $sqlEvolution);
+$evolution = mysqli_fetch_assoc($resultEvolution);
+?>
+
+<?php if ($ancetre) : ?>
+    <h2>Ancêtre</h2>
+    <p><strong>ID:</strong> <?php echo $ancetre['idPokemon']; ?></p>
+    <p><strong>Nom:</strong> <?php echo htmlspecialchars($ancetre['nomPokemon']); ?></p>
+    <a href="fichepokemon.php?id=<?php echo $ancetre['idPokemon']; ?>">
+        <img src="<?php echo htmlspecialchars($ancetre['urlPhoto']); ?>" alt="<?php echo htmlspecialchars($ancetre['nomPokemon']); ?>" />
+    </a>
+<?php endif; ?>
+
+<?php if ($evolution) : ?>
+    <h2>Évolution</h2>
+    <p><strong>ID:</strong> <?php echo $evolution['idPokemon']; ?></p>
+    <p><strong>Nom:</strong> <?php echo htmlspecialchars($evolution['nomPokemon']); ?></p>
+    <a href="fichepokemon.php?id=<?php echo $evolution['idPokemon']; ?>">
+        <img src="<?php echo htmlspecialchars($evolution['urlPhoto']); ?>" alt="<?php echo htmlspecialchars($evolution['nomPokemon']); ?>" />
+    </a>
+<?php endif; ?>
+
  <?php
 require_once("footer.php");
 ?>
